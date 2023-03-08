@@ -19,15 +19,17 @@ const TaxInfo = ({ taxInfo }: TaxInfoProps) => {
           </li>
           <li>
             Tax Per Band:
-            {taxInfo.taxPerBand.map((band) => (
-              <div key={band.rate}>
-                {Number(band.rate.toFixed(2)) * 100}%:{" "}
-                {band.amount.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
-              </div>
-            ))}
+            {taxInfo.taxPerBand.map((band) => {
+              return (
+                <div key={band.rate}>
+                  {(Number(band.rate) * 100).toFixed(2)}%:{" "}
+                  {band.amount.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  })}
+                </div>
+              );
+            })}
           </li>
           <li>
             Effective Tax Rate:{" "}

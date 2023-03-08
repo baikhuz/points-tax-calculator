@@ -1,4 +1,4 @@
-import { TaxBracket, TaxBracketWithAmount } from "../App";
+import { TaxBracket, TaxBracketWithAmount } from "../types";
 
 export default function calculateTax(
   salary: number,

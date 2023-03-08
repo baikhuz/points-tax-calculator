@@ -19,3 +19,14 @@ ul {
 .tax-form-error {
   color: red;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.submit-button {
+  width: fit-content;
+}
