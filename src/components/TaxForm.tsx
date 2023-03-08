@@ -1,43 +1,58 @@
 import React, { useState } from "react";
 import Input from "./Input";
-import fetchGet from "../utils/fetchGet";
 import calculateTax from "../utils/calculateTax";
 import { TaxInfoType, BracketsData } from "../App";
 import { TAX_INFO_INIT } from "../constants";
+import useFetch from "../hooks/useFetch";
 
 interface TaxFormProps {
   setTaxInfo: React.Dispatch<React.SetStateAction<TaxInfoType>>;
 }
 
-const GET_BRACKETS_URL = "http://localhost:5001/tax-calculator/brackets";
+const GET_BRACKETS_URL = "http://localhost:5000/tax-calculator/brackets";
 
 const TaxForm = ({ setTaxInfo }: TaxFormProps) => {
   const [salary, setSalary] = useState(0);
   const [error, setError] = useState("");
+  const {
+    data,
+    error: fetchError,
+  }: { data: BracketsData | null; error: Error | null } =
+    useFetch(GET_BRACKETS_URL);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTaxInfo(TAX_INFO_INIT);
     setError("");
 
-    if (salary < 0) {
-      setError("Is your salary really negative?🤔");
+    if (fetchError) {
+      setError(
+        `Oops, something's wrong with our server, try again later: ${String(
+          fetchError
+        )}`
+      );
       return;
     }
 
-    const data: BracketsData = await fetchGet(GET_BRACKETS_URL);
-    const bracketsArr = data.tax_brackets;
-    const { taxRate, taxOwed, taxPerBand, effectiveTaxRate } = calculateTax(
-      salary,
-      bracketsArr
-    );
+    if (salary <= 0) {
+      setError("Enter a positive salary!");
+      return;
+    }
 
-    setTaxInfo({
-      taxRate,
-      taxOwed,
-      taxPerBand,
-      effectiveTaxRate,
-    });
+    if (data?.tax_brackets) {
+      const bracketsArr = data.tax_brackets;
+      const { taxRate, taxOwed, taxPerBand, effectiveTaxRate } = calculateTax(
+        salary,
+        bracketsArr
+      );
+
+      setTaxInfo({
+        taxRate,
+        taxOwed,
+        taxPerBand,
+        effectiveTaxRate,
+      });
+    }
   };
 
   return (
