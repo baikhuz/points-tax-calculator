@@ -12,7 +12,8 @@ export const TAX_INFO_INIT = {
   effectiveTaxRate: 0,
 };
 
-export const GET_BRACKETS_URL = "http://localhost:5000/tax-calculator/brackets/";
+export const GET_BRACKETS_URL =
+  "http://localhost:5001/tax-calculator/brackets/";
 
 export const GET_YEAR_RADIO_BUTTONS = [
   {

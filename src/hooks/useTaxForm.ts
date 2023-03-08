@@ -38,6 +38,7 @@ const useTaxForm = (
       e.preventDefault();
       setTaxInfo(TAX_INFO_INIT);
       setError("");
+      setFetchError(null);
 
       if (salary <= 0) {
         setError("Enter a positive salary!");
