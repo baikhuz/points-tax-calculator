@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Input from "./Input";
 import calculateTax from "../utils/calculateTax";
-import { TaxInfoType, BracketsData } from "../App";
+import { TaxInfoType, BracketsData } from "../types";
 import { TAX_INFO_INIT } from "../constants";
 import useFetch from "../hooks/useFetch";
 

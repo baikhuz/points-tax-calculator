@@ -1,5 +1,4 @@
-import React from "react";
-import { TaxInfoType } from "../App";
+import { TaxInfoType } from "../types";
 
 export interface TaxInfoProps {
   taxInfo: TaxInfoType;
