@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import TaxInfo from "./components/TaxInfo";
 import TaxForm from "./components/TaxForm";
+import { TAX_INFO_INIT } from "./constants";
 
 export type TaxBracket = {
   min: number;
@@ -22,20 +23,6 @@ export type TaxInfoType = {
   taxOwed: number;
   taxPerBand: TaxBracketWithAmount[];
   effectiveTaxRate: number;
-};
-
-const TAX_INFO_INIT = {
-  taxRate: 0,
-  taxOwed: 0,
-  taxPerBand: [
-    {
-      min: 0,
-      max: 0,
-      rate: 0,
-      amount: 0,
-    },
-  ],
-  effectiveTaxRate: 0,
 };
 
 function App() {
