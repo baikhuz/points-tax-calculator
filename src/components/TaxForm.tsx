@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "./Input";
+import fetchGet from "../utils/fetchGet";
+import calculateTax from "../utils/calculateTax";
+import { TaxInfoType, BracketsData } from "../App";
 
 interface TaxFormProps {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
-  setSalary: React.Dispatch<React.SetStateAction<number>>;
+  setTaxInfo: React.Dispatch<React.SetStateAction<TaxInfoType>>;
 }
 
-const TaxForm = ({ onSubmit, setSalary }: TaxFormProps) => {
+const GET_BRACKETS_URL = "http://localhost:5001/tax-calculator/brackets";
+
+const TaxForm = ({ setTaxInfo }: TaxFormProps) => {
+  const [salary, setSalary] = useState(0);
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const data: BracketsData = await fetchGet(GET_BRACKETS_URL);
+    const bracketsArr = data.tax_brackets;
+    const { taxRate, taxOwed, taxPerBand, effectiveTaxRate } = calculateTax(
+      salary,
+      bracketsArr
+    );
+
+    setTaxInfo({
+      taxRate,
+      taxOwed,
+      taxPerBand,
+      effectiveTaxRate,
+    });
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <label>

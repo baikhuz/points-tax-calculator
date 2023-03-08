@@ -1,7 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import fetchGet from "./utils/fetchGet";
-import calculateTax from "./utils/calculateTax";
 import TaxInfo from "./components/TaxInfo";
 import TaxForm from "./components/TaxForm";
 
@@ -40,34 +38,13 @@ const TAX_INFO_INIT = {
   effectiveTaxRate: 0,
 };
 
-const GET_BRACKETS_URL = "http://localhost:5000/tax-calculator/brackets";
-
 function App() {
-  const [salary, setSalary] = useState(0);
   const [taxInfo, setTaxInfo] = useState<TaxInfoType>(TAX_INFO_INIT);
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const data: BracketsData = await fetchGet(GET_BRACKETS_URL);
-    const bracketsArr = data.tax_brackets;
-    const { taxRate, taxOwed, taxPerBand, effectiveTaxRate } = calculateTax(
-      salary,
-      bracketsArr
-    );
-
-    setTaxInfo({
-      taxRate,
-      taxOwed,
-      taxPerBand,
-      effectiveTaxRate,
-    });
-  };
 
   return (
     <div className="App">
       <h1>Points Tax Calculator 💰💸</h1>
-      <TaxForm onSubmit={onSubmit} setSalary={setSalary} />
+      <TaxForm setTaxInfo={setTaxInfo} />
       <TaxInfo taxInfo={taxInfo} />
     </div>
   );
